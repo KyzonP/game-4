@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c8mprinwgog64"]
+
+[ext_resource type="Script" uid="uid://ctou81klkvhx2" path="res://Script/ship.gd" id="1_4qyt1"]
+[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Placeholder/Player.png" id="1_78pfh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4qyt1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_78pfh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Ship" type="CharacterBody2D" unique_id=609509698 groups=["player"]]
+collision_mask = 0
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_4qyt1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1925145260]
+texture_filter = 1
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_4qyt1")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=340100962]
+polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=611232042]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=904392699]
+polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
