@@ -55,22 +55,29 @@ func StartGame():
 	self.hide()
 
 func _on_host_button_down():
-	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(port, 2)
+	# Modified to test websocket
+	peer = WebSocketMultiplayerPeer.new()
+	var error = peer.create_server(port)
 	if error != OK:
-		print("Cannot Host:" + error)
+		print("Cannot Host:" + str(error))
 		return
 	
-	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	# Removed to test websocket
+	#peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
 	multiplayer.set_multiplayer_peer(peer)
 	print("Waiting for Players . . .")
 	sendPlayerInformation($LineEdit.text, multiplayer.get_unique_id())
 
 func _on_join_button_down():
-	peer = ENetMultiplayerPeer.new()
-	peer.create_client(Address, port)
-	peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
+	# Modified to test websocket
+	peer = WebSocketMultiplayerPeer.new()
+	
+	# Modified to test websocket
+	peer.create_client("wss://" + Address + ":" + str(port))
+	
+	# Removed to test websocket
+	#peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	
 	multiplayer.set_multiplayer_peer(peer)
 
