@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="20 Games - Game 4"
-run/main_scene="uid://dhipa6yhe4d2g"
+run/main_scene="uid://bbdyo3nv8mo88"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*uid://colt3hu34jp3e"
 
 [display]
 
@@ -25,6 +29,7 @@ window/stretch/mode="viewport"
 [global_group]
 
 reset=""
+PlayerSpawnPoint=""
 
 [input]
 

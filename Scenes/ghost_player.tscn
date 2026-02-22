@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://mbc7xxg2ytya"]
+
+[ext_resource type="Script" uid="uid://bqnsbmr3pmpk4" path="res://Script/ghost_player.gd" id="1_wkb14"]
+[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Placeholder/Player.png" id="2_xflhe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xflhe"]
+radius = 17.0
+
+[node name="GhostPlayer" type="Area2D" unique_id=1323913945 groups=["player"]]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_wkb14")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1835892215]
+visible = false
+texture = ExtResource("2_xflhe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679469188]
+shape = SubResource("CircleShape2D_xflhe")

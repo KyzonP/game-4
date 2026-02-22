@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://doums0reb5f2t"]
+
+[ext_resource type="Script" uid="uid://b8olskyh2d68l" path="res://Script/Multiplayer/multi_ship.gd" id="1_6arvq"]
+[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Placeholder/Player.png" id="2_4o3px"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4qyt1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4o3px")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6arvq"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Ship" type="CharacterBody2D" unique_id=609509698 groups=["player", "reset"]]
+collision_mask = 0
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_6arvq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1925145260]
+texture_filter = 1
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_4qyt1")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=340100962]
+polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=611232042]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=904392699]
+polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1707204032]
+replication_config = SubResource("SceneReplicationConfig_6arvq")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

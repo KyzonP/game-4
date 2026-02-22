@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cfth6vx5tf0k1"]
+
+[ext_resource type="Script" uid="uid://73dn5c12opdg" path="res://Script/ai_logic.gd" id="1_scw4n"]
+
+[node name="AILogic" type="Node2D" unique_id=1418586816]
+script = ExtResource("1_scw4n")

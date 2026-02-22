@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://8edwsbt5r1fm"]
+
+[ext_resource type="Script" uid="uid://ba2qenmrmmp1v" path="res://Script/levelRules.gd" id="1_6rx47"]
+[ext_resource type="Texture2D" uid="uid://dj7cewos0f1yt" path="res://Assets/Placeholder/LeveLSize.png" id="2_r3lee"]
+[ext_resource type="PackedScene" uid="uid://c8mprinwgog64" path="res://Scenes/ship.tscn" id="3_ov7wi"]
+[ext_resource type="PackedScene" uid="uid://cfth6vx5tf0k1" path="res://Scenes/ai_logic.tscn" id="4_ov7wi"]
+[ext_resource type="Texture2D" uid="uid://dcbdh8p32pqmk" path="res://Assets/Placeholder/LeveLSizeFront.png" id="4_wkjtn"]
+[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="5_pw5p2"]
+[ext_resource type="PackedScene" uid="uid://mbc7xxg2ytya" path="res://Scenes/ghost_player.tscn" id="6_r3lee"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_efk68"]
+radius = 48.010414
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ko2s7"]
+radius = 257.0
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_r3lee"]
+points = PackedVector2Array(0, 0, 25, 75, 250, 300, 250, -300, 25, -75)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_ov7wi"]
+points = PackedVector2Array(0, 0, 200, -50, 200, 50)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_wkjtn"]
+points = PackedVector2Array(150, 0, 25, 5, 25, -5)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_pw5p2"]
+points = PackedVector2Array(150, 50, 50, 100, 0, 0, 50, -100, 150, -50)
+
+[node name="TestLevel" type="Node2D" unique_id=2027567036]
+script = ExtResource("1_6rx47")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=328278644]
+texture = ExtResource("2_r3lee")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=339137288]
+
+[node name="Center" type="Area2D" parent="." unique_id=560254787]
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center" unique_id=668404933]
+shape = SubResource("CircleShape2D_efk68")
+debug_color = Color(0.9416667, 0.13440701, 0.50818497, 0.41960785)
+
+[node name="Arena" type="Area2D" parent="." unique_id=117998313]
+collision_layer = 0
+collision_mask = 3
+gravity_space_override = 3
+gravity_point = true
+gravity_point_unit_distance = 48.0
+gravity_point_center = Vector2(0, 0)
+gravity_direction = Vector2(0, 0)
+gravity = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena" unique_id=948163335]
+shape = SubResource("CircleShape2D_ko2s7")
+
+[node name="Ship" parent="." unique_id=1268221398 groups=["reset"] instance=ExtResource("3_ov7wi")]
+position = Vector2(-225, 0)
+player = 1
+startPos = Vector2(-225, 0)
+
+[node name="Ship2" parent="." unique_id=609509698 groups=["reset"] instance=ExtResource("3_ov7wi")]
+position = Vector2(225, 0)
+player = 3
+startPos = Vector2(225, 0)
+startRot = 180.0
+
+[node name="AILogic" parent="Ship2" unique_id=1418586816 node_paths=PackedStringArray("searchcast", "firecast", "centercast", "wideCentercast", "rearcast") instance=ExtResource("4_ov7wi")]
+searchcast = NodePath("../SearchCast")
+firecast = NodePath("../FireCast")
+centercast = NodePath("../CenterCast")
+wideCentercast = NodePath("../WidecenterCast")
+rearcast = NodePath("../Rearcast")
+
+[node name="SearchCast" type="ShapeCast2D" parent="Ship2" unique_id=1037442660]
+shape = SubResource("ConvexPolygonShape2D_r3lee")
+target_position = Vector2(32, 0)
+collision_mask = 9
+collide_with_areas = true
+
+[node name="FireCast" type="ShapeCast2D" parent="Ship2" unique_id=52256582]
+shape = SubResource("ConvexPolygonShape2D_ov7wi")
+target_position = Vector2(32, 0)
+collision_mask = 9
+collide_with_areas = true
+
+[node name="CenterCast" type="ShapeCast2D" parent="Ship2" unique_id=241336212]
+shape = SubResource("ConvexPolygonShape2D_wkjtn")
+target_position = Vector2(0, 0)
+collision_mask = 4
+collide_with_areas = true
+
+[node name="WidecenterCast" type="ShapeCast2D" parent="Ship2" unique_id=1643604351]
+shape = SubResource("ConvexPolygonShape2D_pw5p2")
+target_position = Vector2(0, 0)
+collision_mask = 4
+collide_with_areas = true
+
+[node name="Rearcast" type="ShapeCast2D" parent="Ship2" unique_id=2137649969]
+shape = SubResource("ConvexPolygonShape2D_pw5p2")
+target_position = Vector2(-130, 0)
+collision_mask = 9
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1349949081]
+z_index = 1
+texture = ExtResource("4_wkjtn")
+
+[node name="Player1Score" type="RichTextLabel" parent="." unique_id=151219113]
+z_index = 2
+offset_left = -256.0
+offset_top = -256.0
+offset_right = -216.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+
+[node name="Player2Score" type="RichTextLabel" parent="." unique_id=91899290]
+z_index = 2
+offset_left = 216.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+
+[node name="GhostPlayer" parent="." unique_id=1305042172 node_paths=PackedStringArray("player") instance=ExtResource("6_r3lee")]
+z_index = 2
+position = Vector2(296, 0)
+player = NodePath("../Ship")
+
+[connection signal="area_entered" from="Center" to="." method="_on_center_body_entered"]
+[connection signal="body_entered" from="Center" to="." method="_on_center_body_entered"]
+[connection signal="area_exited" from="Arena" to="." method="_on_hole_body_exited"]
+[connection signal="body_exited" from="Arena" to="." method="_on_hole_body_exited"]

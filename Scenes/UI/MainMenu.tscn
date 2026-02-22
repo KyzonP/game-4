@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bbdyo3nv8mo88"]
+
+[ext_resource type="Script" uid="uid://bmnxiubhv1y35" path="res://Script/UI/main_menu.gd" id="1_g18y6"]
+
+[node name="Control" type="Control" unique_id=1042675053]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g18y6")
+
+[node name="Local" type="Button" parent="." unique_id=129293922]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 99.0
+offset_right = 332.0
+offset_bottom = 148.0
+text = "Local"
+
+[node name="Online" type="Button" parent="." unique_id=1638249152]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 165.0
+offset_right = 333.0
+offset_bottom = 214.0
+text = "Online"
+
+[node name="AI" type="Button" parent="." unique_id=2045261860]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 28.0
+offset_right = 333.0
+offset_bottom = 77.0
+text = "AI"
+
+[node name="Quit" type="Button" parent="." unique_id=1674131417]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 299.0
+offset_right = 335.0
+offset_bottom = 348.0
+text = "Quit"
+
+[connection signal="button_down" from="Local" to="." method="_on_local_button_down"]
+[connection signal="button_down" from="Online" to="." method="_on_online_button_down"]
+[connection signal="button_down" from="AI" to="." method="_on_ai_button_down"]
+[connection signal="button_down" from="Quit" to="." method="_on_quit_button_down"]

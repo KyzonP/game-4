@@ -18,37 +18,31 @@ var bulletReloadTimer = 0.0
 var bulletReloadMax = 1.0
 
 func _ready():
-	reset()
+
+	$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 
 func get_vertical_input():
 	var input = Vector2()
 	
-	if player == 1:
-		if Input.is_action_pressed("move_up"):
-			input.y -= 1
-		if Input.is_action_pressed("move_down"):
-			input.y +=1
-	elif player == 2:
-		if Input.is_action_pressed("move_up_p2"):
-			input.y -= 1
-		if Input.is_action_pressed("move_down_p2"):
-			input.y +=1
+	if Input.is_action_pressed("move_up"):
+		input.y -= 1
+	if Input.is_action_pressed("move_down"):
+		input.y +=1
 		
 	return input
 	
 func get_rotational_input():
 	var rotDirection
-	if player == 1:
-		rotDirection = Input.get_axis("move_left", "move_right")
-	elif player == 2:
-		rotDirection = Input.get_axis("move_left_p2", "move_right_p2")
+		
+	rotDirection = Input.get_axis("move_left", "move_right")
+
 	
 	return rotDirection
 
 func _physics_process(delta):
-	velocity = get_real_velocity()
-	
-	if player <=2:
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+		velocity = get_real_velocity()
+		
 		var rotDirection = get_rotational_input()
 		if rotDirection:
 			rotation += rotDirection * rotSpeed * delta
@@ -62,37 +56,23 @@ func _physics_process(delta):
 				velocity = velocity.lerp(Vector2.ZERO, friction)
 		else:
 			velocity = velocity.lerp(Vector2.ZERO, friction)
-	elif player == 3:
-		# AI Rotation
-		rotation = $AILogic.calculateRotation(rotation, rotSpeed, delta)
-		
-		# AI velocity
-		velocity = $AILogic.calculateVelocity(velocity, speed, acceleration, friction)
-		
-		# Check shooting
-		if $AILogic.checkShooting():
-			shoot()
 			
-		print("Bullets" + str(bullets))
-		print(bulletReloadTimer)
-		
-	velocity += get_gravity()
+		velocity += get_gravity()
 
-	move_and_slide()
-	
-
-	if Input.is_action_just_pressed("fire") and player == 1:
-		shoot()
-	if Input.is_action_just_pressed("fire_p2") and player == 2:
-		shoot()
+		move_and_slide()
 		
-	if bullets < 3:
-		bulletReloadTimer += delta
-		
-		if bulletReloadTimer >= bulletReloadMax:
-			bullets += 1
-			bulletReloadTimer = 0
 
+		if Input.is_action_just_pressed("fire"):
+			shoot.rpc()
+			
+		if bullets < 3:
+			bulletReloadTimer += delta
+			
+			if bulletReloadTimer >= bulletReloadMax:
+				bullets += 1
+				bulletReloadTimer = 0
+
+@rpc("any_peer", "call_local")
 func reset():
 	velocity = Vector2.ZERO
 	global_position = startPos
@@ -102,6 +82,7 @@ func reset():
 	bulletReloadTimer = 0
 	
 # Fire a bullet if bullets are greater than 0 - logic for checking bullet count is here to cover AI use
+@rpc("any_peer", "call_local")
 func shoot():
 	if bullets > 0:
 		var bullet = bullet.instantiate()
@@ -116,9 +97,9 @@ func shoot():
 	
 # Pass on player number to parent, to give point and begin reset
 func destroy():
-	get_parent().reset(player)
+	get_parent().reset(self, false)
 
 # If colliding with another player, level resets and nobody gets a point
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("player"):
-		get_parent().reset(0)
+		get_parent().reset(self, true)

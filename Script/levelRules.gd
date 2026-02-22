@@ -1,5 +1,7 @@
 extends Node2D
 
+# test
+
 @onready var screen_size = get_viewport_rect().size
 
 var player1Score = 0
@@ -10,7 +12,7 @@ func _on_hole_body_exited(body):
 	body.global_position *= -1
 
 func reset(defeatedPlayer):
-	if defeatedPlayer == 2:
+	if defeatedPlayer == 2 || defeatedPlayer == 3:
 		player1Score += 1
 		$Player1Score.text = "[center]" + str(player1Score)
 	elif defeatedPlayer == 1:
