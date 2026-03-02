@@ -1,6 +1,21 @@
 [gd_scene format=3 uid="uid://b5kht6adiaemc"]
 
 [ext_resource type="Script" uid="uid://bk02v4dhpi3ba" path="res://Script/Multiplayer/MultiplayerController.gd" id="1_rmwxb"]
+[ext_resource type="Texture2D" uid="uid://3fg8j77kfrdf" path="res://Assets/Final/UI/Button.png" id="2_2n5d7"]
+[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="2_wfjel"]
+[ext_resource type="Shader" uid="uid://botuftb61fvlb" path="res://Shaders/Test.gdshader" id="3_qp18x"]
+[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Final/UI/OverlayEdge.png" id="4_2n5d7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5782r"]
+shader = ExtResource("3_qp18x")
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/spiral_color = Color(0.15934315, 0.5706968, 0.6251276, 1)
+shader_parameter/frequency = 8.0
+shader_parameter/speed = 8.0
+shader_parameter/brightness = 5.0
+shader_parameter/balance = 0.999999977648
+shader_parameter/octaves = 10.0
+shader_parameter/pixel_grid_size = 512.0
 
 [node name="Control" type="Control" unique_id=1041380202]
 layout_mode = 3
@@ -11,44 +26,96 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rmwxb")
 
-[node name="Host" type="Button" parent="." unique_id=182062035]
+[node name="Host" type="TextureButton" parent="." unique_id=586352160]
 layout_mode = 0
-offset_left = 190.0
-offset_top = 256.0
-offset_right = 333.0
-offset_bottom = 305.0
-text = "Host"
+offset_left = 185.0
+offset_top = 157.0
+offset_right = 328.0
+offset_bottom = 206.0
+texture_normal = ExtResource("2_2n5d7")
 
-[node name="Join" type="Button" parent="." unique_id=969055908]
+[node name="RichTextLabel" type="RichTextLabel" parent="Host" unique_id=892470720]
 layout_mode = 0
-offset_left = 194.0
-offset_top = 319.0
-offset_right = 337.0
-offset_bottom = 368.0
-text = "Join"
+offset_top = 13.0
+offset_right = 150.0
+offset_bottom = 40.0
+theme_override_fonts/normal_font = ExtResource("2_wfjel")
+bbcode_enabled = true
+text = "[center]Host"
 
-[node name="StartGame" type="Button" parent="." unique_id=228231909]
+[node name="Join" type="TextureButton" parent="." unique_id=2034445038]
 layout_mode = 0
-offset_left = 193.0
-offset_top = 378.0
-offset_right = 336.0
-offset_bottom = 427.0
-text = "Start Game"
+offset_left = 186.0
+offset_top = 216.0
+offset_right = 329.0
+offset_bottom = 265.0
+texture_normal = ExtResource("2_2n5d7")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Join" unique_id=171269535]
+layout_mode = 0
+offset_top = 13.0
+offset_right = 150.0
+offset_bottom = 40.0
+theme_override_fonts/normal_font = ExtResource("2_wfjel")
+bbcode_enabled = true
+text = "[center]Join"
+
+[node name="StartGame" type="TextureButton" parent="." unique_id=1387007456]
+layout_mode = 0
+offset_left = 188.0
+offset_top = 321.0
+offset_right = 356.0
+offset_bottom = 370.0
+texture_normal = ExtResource("2_2n5d7")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="StartGame" unique_id=1064147271]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 150.0
+offset_bottom = 49.0
+theme_override_fonts/normal_font = ExtResource("2_wfjel")
+bbcode_enabled = true
+text = "[center]Start Game"
 
 [node name="LineEdit" type="LineEdit" parent="." unique_id=1977345287]
 layout_mode = 0
-offset_left = 151.0
-offset_top = 206.0
-offset_right = 384.0
-offset_bottom = 237.0
+offset_left = 158.0
+offset_top = 39.0
+offset_right = 391.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("2_wfjel")
 
 [node name="Label" type="Label" parent="." unique_id=1840652050]
 layout_mode = 0
-offset_left = 82.0
-offset_top = 209.0
-offset_right = 133.0
-offset_bottom = 232.0
+offset_left = 79.0
+offset_top = 45.0
+offset_right = 159.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("2_wfjel")
 text = "Name:"
+
+[node name="IPLabel" type="Label" parent="." unique_id=187660499]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 284.0
+offset_right = 141.0
+offset_bottom = 307.0
+theme_override_fonts/font = ExtResource("2_wfjel")
+text = "IP:"
+
+[node name="IPLineEdit" type="LineEdit" parent="." unique_id=1403009861]
+layout_mode = 0
+offset_left = 146.0
+offset_top = 277.0
+offset_right = 379.0
+offset_bottom = 308.0
+theme_override_fonts/font = ExtResource("2_wfjel")
+
+[node name="Water" type="Sprite2D" parent="." unique_id=1281991849]
+z_index = -1
+material = SubResource("ShaderMaterial_5782r")
+position = Vector2(256, 256)
+texture = ExtResource("4_2n5d7")
 
 [connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="Join" to="." method="_on_join_button_down"]

@@ -1,10 +1,15 @@
 [gd_scene format=3 uid="uid://b5bhdnkc4784s"]
 
 [ext_resource type="Script" uid="uid://vm7sdomyaa1j" path="res://Script/bullet.gd" id="1_14k46"]
-[ext_resource type="Texture2D" uid="uid://ddab2k2fnajpx" path="res://Assets/Placeholder/Bullet.png" id="1_vlxeq"]
+[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Final/Gameplay/Bullet.png" id="2_14k46"]
+[ext_resource type="Script" uid="uid://dmnpxxeo0oaop" path="res://Script/Particles/cpu_particles_2d.gd" id="3_qvus8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_14k46"]
 radius = 4.0
+
+[sub_resource type="Gradient" id="Gradient_14k46"]
+offsets = PackedFloat32Array(0, 0.99382716)
+colors = PackedColorArray(0.13319641, 0.13319641, 0.13319638, 1, 0.8732984, 0.8732984, 0.8732984, 1)
 
 [node name="Bullet" type="Area2D" unique_id=1025044611 groups=["bullet", "reset"]]
 collision_layer = 2
@@ -12,11 +17,24 @@ collision_mask = 3
 script = ExtResource("1_14k46")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1430153644]
+z_index = 1
 texture_filter = 1
-texture = ExtResource("1_vlxeq")
+texture = ExtResource("2_14k46")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=912633782]
 shape = SubResource("CircleShape2D_14k46")
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=168471670 groups=["reset"]]
+amount = 256
+lifetime = 2.0
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(4, 4)
+gravity = Vector2(0, 0)
+scale_amount_max = 3.0
+color_initial_ramp = SubResource("Gradient_14k46")
+script = ExtResource("3_qvus8")
+
 [connection signal="area_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="CPUParticles2D" to="CPUParticles2D" method="_on_finished"]

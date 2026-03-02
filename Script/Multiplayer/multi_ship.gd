@@ -11,6 +11,8 @@ extends CharacterBody2D
 @export var startPos : Vector2
 @export var startRot : float
 
+@export var bulletAmount : Sprite2D
+
 var bullet = preload("res://Scenes/Bullet.tscn")
 
 var bullets = 3
@@ -65,12 +67,14 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("fire"):
 			shoot.rpc()
 			
-		if bullets < 3:
-			bulletReloadTimer += delta
-			
-			if bulletReloadTimer >= bulletReloadMax:
-				bullets += 1
-				bulletReloadTimer = 0
+	if bullets < 3:
+		bulletReloadTimer += delta
+		
+		if bulletReloadTimer >= bulletReloadMax:
+			bullets += 1
+			bulletReloadTimer = 0
+			### UI ###
+			updateUI()
 
 @rpc("any_peer", "call_local")
 func reset():
@@ -80,6 +84,9 @@ func reset():
 	
 	bullets = 3
 	bulletReloadTimer = 0
+	
+	### UI ###
+	updateUI()
 	
 # Fire a bullet if bullets are greater than 0 - logic for checking bullet count is here to cover AI use
 @rpc("any_peer", "call_local")
@@ -94,12 +101,22 @@ func shoot():
 		bullet.position += bullet.transform.x * bullet.offSet
 		
 		bullets -= 1
+		
+		### UI ###
+		updateUI()
 	
 # Pass on player number to parent, to give point and begin reset
 func destroy():
-	get_parent().reset(self, false)
+	# Only destroy if you get hit on your own screen
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+		get_parent().reset.rpc(self.name, false)
 
 # If colliding with another player, level resets and nobody gets a point
 func _on_area_2d_body_entered(body):
-	if body.is_in_group("player"):
-		get_parent().reset(self, true)
+	if $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id():
+		if body.is_in_group("player"):
+			get_parent().reset.rpc(self.name, true)
+			
+func updateUI():
+	if bulletAmount:
+		bulletAmount.bulletChange(bullets)

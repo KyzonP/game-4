@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4cxn30ceeses"
-path="res://.godot/imported/Player.png-903c35c2337d369dd42171a7b9903351.ctex"
+uid="uid://c27at7qfak5x6"
+path="res://.godot/imported/OverlayEdge.png-afc443270b8aa810737af5e5be13c8cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Placeholder/Player.png"
-dest_files=["res://.godot/imported/Player.png-903c35c2337d369dd42171a7b9903351.ctex"]
+source_file="res://Assets/Final/UI/OverlayEdge.png"
+dest_files=["res://.godot/imported/OverlayEdge.png-afc443270b8aa810737af5e5be13c8cf.ctex"]
 
 [params]
 

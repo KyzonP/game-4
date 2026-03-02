@@ -2,10 +2,28 @@
 
 [ext_resource type="Script" uid="uid://g7am62155tql" path="res://Script/Multiplayer/multiplayer_scene.gd" id="1_bgonm"]
 [ext_resource type="PackedScene" uid="uid://doums0reb5f2t" path="res://Scenes/Multiplayer/multiShip.tscn" id="2_00mcd"]
-[ext_resource type="Texture2D" uid="uid://dj7cewos0f1yt" path="res://Assets/Placeholder/LeveLSize.png" id="2_u2avd"]
-[ext_resource type="Texture2D" uid="uid://dcbdh8p32pqmk" path="res://Assets/Placeholder/LeveLSizeFront.png" id="3_00mcd"]
+[ext_resource type="Shader" uid="uid://botuftb61fvlb" path="res://Shaders/Test.gdshader" id="3_lu72a"]
+[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Final/UI/OverlayEdge.png" id="4_dbfd7"]
 [ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="4_xccf5"]
 [ext_resource type="Script" uid="uid://c6n33bhne3mg7" path="res://Script/Multiplayer/spawnPoint.gd" id="6_00mcd"]
+[ext_resource type="Shader" uid="uid://bg0131rnrbxdg" path="res://Shaders/DeathZone.gdshader" id="7_lqn8e"]
+[ext_resource type="Texture2D" uid="uid://csy7xqxvhb355" path="res://Assets/Placeholder/Arena/LeveLCentre.png" id="8_7v36n"]
+[ext_resource type="Texture2D" uid="uid://dwnp3g3qkqtdl" path="res://Assets/Final/UI/Overlay.png" id="9_4dfue"]
+[ext_resource type="Texture2D" uid="uid://d4c3cuxur4nt6" path="res://Assets/Final/UI/OverlayButtonsL.png" id="10_8kcap"]
+[ext_resource type="Script" uid="uid://byfyfnbvfsjxl" path="res://Script/UI/bulletAmount.gd" id="11_ueoaw"]
+[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Final/Gameplay/Bullet.png" id="12_ip6ee"]
+[ext_resource type="Texture2D" uid="uid://6yuewjqiabf7" path="res://Assets/Final/UI/OverlayButtonsR.png" id="13_5nixt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qh10o"]
+shader = ExtResource("3_lu72a")
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/spiral_color = Color(0.15934315, 0.5706968, 0.6251276, 1)
+shader_parameter/frequency = 8.0
+shader_parameter/speed = 8.0
+shader_parameter/brightness = 5.0
+shader_parameter/balance = 0.999999977648
+shader_parameter/octaves = 10.0
+shader_parameter/pixel_grid_size = 512.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_efk68"]
 radius = 48.010414
@@ -13,12 +31,17 @@ radius = 48.010414
 [sub_resource type="CircleShape2D" id="CircleShape2D_ko2s7"]
 radius = 257.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_10rw0"]
+shader = ExtResource("7_lqn8e")
+
 [node name="TestLevel" type="Node2D" unique_id=2027567036]
 script = ExtResource("1_bgonm")
 PlayerScene = ExtResource("2_00mcd")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=328278644]
-texture = ExtResource("2_u2avd")
+[node name="Water" type="Sprite2D" parent="." unique_id=1360334429]
+material = SubResource("ShaderMaterial_qh10o")
+position = Vector2(2, 0)
+texture = ExtResource("4_dbfd7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=339137288]
 
@@ -42,28 +65,6 @@ gravity = 10.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arena" unique_id=948163335]
 shape = SubResource("CircleShape2D_ko2s7")
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1349949081]
-z_index = 1
-texture = ExtResource("3_00mcd")
-
-[node name="Player1Score" type="RichTextLabel" parent="." unique_id=151219113]
-z_index = 3
-offset_left = -256.0
-offset_top = -256.0
-offset_right = -216.0
-offset_bottom = -216.0
-theme_override_fonts/normal_font = ExtResource("4_xccf5")
-bbcode_enabled = true
-
-[node name="Player2Score" type="RichTextLabel" parent="." unique_id=91899290]
-z_index = 3
-offset_left = 216.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = -216.0
-theme_override_fonts/normal_font = ExtResource("4_xccf5")
-bbcode_enabled = true
-
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1627138602]
 
 [node name="0" type="Node2D" parent="SpawnPoints" unique_id=79701748 groups=["PlayerSpawnPoint"]]
@@ -74,6 +75,225 @@ script = ExtResource("6_00mcd")
 position = Vector2(225, 0)
 script = ExtResource("6_00mcd")
 startRotation = 180.0
+
+[node name="Player1Score" type="RichTextLabel" parent="." unique_id=985022994]
+z_index = 2
+offset_left = -256.0
+offset_top = -216.0
+offset_right = -185.0
+offset_bottom = -176.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+bbcode_enabled = true
+
+[node name="Player1Name" type="RichTextLabel" parent="." unique_id=1648738468]
+z_index = 2
+offset_left = -256.0
+offset_top = -256.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+bbcode_enabled = true
+text = "Player 1"
+
+[node name="Player2Score" type="RichTextLabel" parent="." unique_id=1724726650]
+z_index = 2
+offset_left = 186.0
+offset_top = -216.0
+offset_right = 256.0
+offset_bottom = -176.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+bbcode_enabled = true
+
+[node name="Player2Name" type="RichTextLabel" parent="." unique_id=1876103985]
+z_index = 2
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+bbcode_enabled = true
+text = "[right]Player 2"
+
+[node name="Centre" type="Sprite2D" parent="." unique_id=546038354]
+visible = false
+material = SubResource("ShaderMaterial_10rw0")
+texture = ExtResource("8_7v36n")
+
+[node name="Frame" type="Sprite2D" parent="." unique_id=55854778]
+texture = ExtResource("9_4dfue")
+
+[node name="ControlsL" type="Sprite2D" parent="." unique_id=2029989238]
+z_index = 1
+texture = ExtResource("10_8kcap")
+script = ExtResource("11_ueoaw")
+startX = -213.0
+endX = -230.0
+
+[node name="Fire" type="RichTextLabel" parent="ControlsL" unique_id=2044545143]
+offset_left = -256.0
+offset_top = 152.0
+offset_right = -204.0
+offset_bottom = 170.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Fire"
+
+[node name="FireKey" type="RichTextLabel" parent="ControlsL" unique_id=1566945377]
+offset_left = -248.0
+offset_top = 177.0
+offset_right = -224.0
+offset_bottom = 195.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]E"
+
+[node name="MoveKeyL" type="RichTextLabel" parent="ControlsL" unique_id=1499594917]
+offset_left = -248.0
+offset_top = 227.0
+offset_right = -224.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]A"
+
+[node name="MoveKeyF" type="RichTextLabel" parent="ControlsL" unique_id=481380399]
+offset_left = -214.0
+offset_top = 227.0
+offset_right = -190.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]W"
+
+[node name="MoveKeyD" type="RichTextLabel" parent="ControlsL" unique_id=1487634312]
+offset_left = -180.0
+offset_top = 227.0
+offset_right = -156.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]D"
+
+[node name="Move" type="RichTextLabel" parent="ControlsL" unique_id=1912015718]
+offset_left = -256.0
+offset_top = 205.0
+offset_right = -151.0
+offset_bottom = 219.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Move"
+
+[node name="Bullet1" type="Sprite2D" parent="ControlsL" unique_id=1853144197]
+z_index = -1
+position = Vector2(-213, 174)
+texture = ExtResource("12_ip6ee")
+
+[node name="Bullet2" type="Sprite2D" parent="ControlsL" unique_id=1067332490]
+z_index = -1
+position = Vector2(-213, 186)
+texture = ExtResource("12_ip6ee")
+
+[node name="Bullet3" type="Sprite2D" parent="ControlsL" unique_id=1038249159]
+z_index = -1
+position = Vector2(-213, 198)
+texture = ExtResource("12_ip6ee")
+
+[node name="ControlsR" type="Sprite2D" parent="." unique_id=2063915612]
+z_index = 1
+texture = ExtResource("13_5nixt")
+script = ExtResource("11_ueoaw")
+startX = 213.0
+endX = 230.0
+
+[node name="Fire" type="RichTextLabel" parent="ControlsR" unique_id=925139007]
+offset_left = 206.0
+offset_top = 152.0
+offset_right = 258.0
+offset_bottom = 170.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Fire"
+
+[node name="Move" type="RichTextLabel" parent="ControlsR" unique_id=1922750285]
+offset_left = 151.0
+offset_top = 205.0
+offset_right = 256.0
+offset_bottom = 219.0
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Move"
+
+[node name="FireKey2" type="RichTextLabel" parent="ControlsR" unique_id=1537737457]
+offset_left = 224.0
+offset_top = 177.0
+offset_right = 248.0
+offset_bottom = 195.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]U"
+
+[node name="MoveKeyL2" type="RichTextLabel" parent="ControlsR" unique_id=1926609386]
+offset_left = 224.0
+offset_top = 227.0
+offset_right = 248.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]L"
+
+[node name="MoveKeyF2" type="RichTextLabel" parent="ControlsR" unique_id=1988760854]
+offset_left = 190.0
+offset_top = 227.0
+offset_right = 214.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]I"
+
+[node name="MoveKeyD2" type="RichTextLabel" parent="ControlsR" unique_id=2015760125]
+offset_left = 156.0
+offset_top = 227.0
+offset_right = 180.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_xccf5")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]J"
+
+[node name="Bullet1" type="Sprite2D" parent="ControlsR" unique_id=239461458]
+z_index = -1
+position = Vector2(213, 174)
+texture = ExtResource("12_ip6ee")
+
+[node name="Bullet2" type="Sprite2D" parent="ControlsR" unique_id=885026742]
+z_index = -1
+position = Vector2(213, 186)
+texture = ExtResource("12_ip6ee")
+
+[node name="Bullet3" type="Sprite2D" parent="ControlsR" unique_id=2005517222]
+z_index = -1
+position = Vector2(213, 198)
+texture = ExtResource("12_ip6ee")
+
+[node name="Edge" type="Sprite2D" parent="." unique_id=1599841825]
+texture = ExtResource("4_dbfd7")
 
 [connection signal="area_entered" from="Center" to="." method="_on_center_body_entered"]
 [connection signal="body_entered" from="Center" to="." method="_on_center_body_entered"]

@@ -11,6 +11,8 @@ extends CharacterBody2D
 @export var startPos : Vector2
 @export var startRot : float
 
+@export var bulletAmount : Sprite2D
+
 var bullet = preload("res://Scenes/Bullet.tscn")
 
 var bullets = 3
@@ -72,9 +74,6 @@ func _physics_process(delta):
 		# Check shooting
 		if $AILogic.checkShooting():
 			shoot()
-			
-		print("Bullets" + str(bullets))
-		print(bulletReloadTimer)
 		
 	velocity += get_gravity()
 
@@ -92,6 +91,9 @@ func _physics_process(delta):
 		if bulletReloadTimer >= bulletReloadMax:
 			bullets += 1
 			bulletReloadTimer = 0
+			
+			### UI ###
+			updateUI()
 
 func reset():
 	velocity = Vector2.ZERO
@@ -100,6 +102,9 @@ func reset():
 	
 	bullets = 3
 	bulletReloadTimer = 0
+	
+	### UI ###
+	updateUI()
 	
 # Fire a bullet if bullets are greater than 0 - logic for checking bullet count is here to cover AI use
 func shoot():
@@ -113,6 +118,14 @@ func shoot():
 		bullet.position += bullet.transform.x * bullet.offSet
 		
 		bullets -= 1
+		
+		if $FireParticles.emitting:
+			$FireParticles.restart()
+		else:
+			$FireParticles.emitting = true
+			
+		### UI ###
+		updateUI()
 	
 # Pass on player number to parent, to give point and begin reset
 func destroy():
@@ -122,3 +135,7 @@ func destroy():
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("player"):
 		get_parent().reset(0)
+		
+func updateUI():
+	if bulletAmount:
+		bulletAmount.bulletChange(bullets)

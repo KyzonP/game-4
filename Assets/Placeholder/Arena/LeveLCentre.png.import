@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddab2k2fnajpx"
-path="res://.godot/imported/Bullet.png-34cfd81fceabf65b3adf4396d611af60.ctex"
+uid="uid://csy7xqxvhb355"
+path="res://.godot/imported/LeveLCentre.png-a0c7ef2bf6fc1c5d9d8161f8161489a8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Placeholder/Bullet.png"
-dest_files=["res://.godot/imported/Bullet.png-34cfd81fceabf65b3adf4396d611af60.ctex"]
+source_file="res://Assets/Placeholder/Arena/LeveLCentre.png"
+dest_files=["res://.godot/imported/LeveLCentre.png-a0c7ef2bf6fc1c5d9d8161f8161489a8.ctex"]
 
 [params]
 

@@ -1,14 +1,35 @@
 [gd_scene format=3 uid="uid://8edwsbt5r1fm"]
 
 [ext_resource type="Script" uid="uid://ba2qenmrmmp1v" path="res://Script/levelRules.gd" id="1_6rx47"]
-[ext_resource type="Texture2D" uid="uid://dj7cewos0f1yt" path="res://Assets/Placeholder/LeveLSize.png" id="2_r3lee"]
+[ext_resource type="Shader" uid="uid://botuftb61fvlb" path="res://Shaders/Test.gdshader" id="2_wkjtn"]
 [ext_resource type="PackedScene" uid="uid://c8mprinwgog64" path="res://Scenes/ship.tscn" id="3_ov7wi"]
+[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Final/UI/OverlayEdge.png" id="3_pw5p2"]
 [ext_resource type="PackedScene" uid="uid://cfth6vx5tf0k1" path="res://Scenes/ai_logic.tscn" id="4_ov7wi"]
-[ext_resource type="Texture2D" uid="uid://dcbdh8p32pqmk" path="res://Assets/Placeholder/LeveLSizeFront.png" id="4_wkjtn"]
 [ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="5_pw5p2"]
 [ext_resource type="PackedScene" uid="uid://mbc7xxg2ytya" path="res://Scenes/ghost_player.tscn" id="6_r3lee"]
+[ext_resource type="Shader" uid="uid://bg0131rnrbxdg" path="res://Shaders/DeathZone.gdshader" id="8_foxwq"]
+[ext_resource type="Texture2D" uid="uid://csy7xqxvhb355" path="res://Assets/Placeholder/Arena/LeveLCentre.png" id="9_i1fl1"]
+[ext_resource type="Texture2D" uid="uid://dwnp3g3qkqtdl" path="res://Assets/Final/UI/Overlay.png" id="10_a4ym1"]
+[ext_resource type="Texture2D" uid="uid://d4c3cuxur4nt6" path="res://Assets/Final/UI/OverlayButtonsL.png" id="11_414q5"]
+[ext_resource type="Script" uid="uid://byfyfnbvfsjxl" path="res://Script/UI/bulletAmount.gd" id="12_t2alp"]
+[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Final/Gameplay/Bullet.png" id="13_d8guh"]
+[ext_resource type="Texture2D" uid="uid://6yuewjqiabf7" path="res://Assets/Final/UI/OverlayButtonsR.png" id="14_kr6ow"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_efk68"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkb4j"]
+shader = ExtResource("2_wkjtn")
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/spiral_color = Color(0.15934315, 0.5706968, 0.6251276, 1)
+shader_parameter/frequency = 8.0
+shader_parameter/speed = 8.0
+shader_parameter/brightness = 5.0
+shader_parameter/balance = 0.999999977648
+shader_parameter/octaves = 10.0
+shader_parameter/pixel_grid_size = 512.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wkjtn"]
+radius = 16.03122
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foxwq"]
 radius = 48.010414
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ko2s7"]
@@ -26,11 +47,16 @@ points = PackedVector2Array(150, 0, 25, 5, 25, -5)
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_pw5p2"]
 points = PackedVector2Array(150, 50, 50, 100, 0, 0, 50, -100, 150, -50)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vs77x"]
+shader = ExtResource("8_foxwq")
+
 [node name="TestLevel" type="Node2D" unique_id=2027567036]
 script = ExtResource("1_6rx47")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=328278644]
-texture = ExtResource("2_r3lee")
+[node name="Water" type="Sprite2D" parent="." unique_id=53290686]
+material = SubResource("ShaderMaterial_xkb4j")
+position = Vector2(2, 0)
+texture = ExtResource("3_pw5p2")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=339137288]
 
@@ -38,8 +64,16 @@ texture = ExtResource("2_r3lee")
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Center" unique_id=668404933]
-shape = SubResource("CircleShape2D_efk68")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center" unique_id=140923155]
+shape = SubResource("CircleShape2D_wkjtn")
+debug_color = Color(0.9416667, 0.13440701, 0.50818497, 0.41960785)
+
+[node name="AICenter" type="Area2D" parent="." unique_id=1527373444]
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AICenter" unique_id=903233628]
+shape = SubResource("CircleShape2D_foxwq")
 debug_color = Color(0.9416667, 0.13440701, 0.50818497, 0.41960785)
 
 [node name="Arena" type="Area2D" parent="." unique_id=117998313]
@@ -55,16 +89,24 @@ gravity = 10.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arena" unique_id=948163335]
 shape = SubResource("CircleShape2D_ko2s7")
 
-[node name="Ship" parent="." unique_id=1268221398 groups=["reset"] instance=ExtResource("3_ov7wi")]
+[node name="Ship" parent="." unique_id=1268221398 node_paths=PackedStringArray("bulletAmount") groups=["reset"] instance=ExtResource("3_ov7wi")]
 position = Vector2(-225, 0)
 player = 1
 startPos = Vector2(-225, 0)
+bulletAmount = NodePath("../ControlsL")
 
-[node name="Ship2" parent="." unique_id=609509698 groups=["reset"] instance=ExtResource("3_ov7wi")]
+[node name="AnimatedSprite2D" parent="Ship" index="1" unique_id=1925145260]
+animation = &"1"
+
+[node name="Ship2" parent="." unique_id=609509698 node_paths=PackedStringArray("bulletAmount") groups=["reset"] instance=ExtResource("3_ov7wi")]
 position = Vector2(225, 0)
 player = 3
 startPos = Vector2(225, 0)
 startRot = 180.0
+bulletAmount = NodePath("../ControlsR")
+
+[node name="AnimatedSprite2D" parent="Ship2" index="1" unique_id=1925145260]
+animation = &"2"
 
 [node name="AILogic" parent="Ship2" unique_id=1418586816 node_paths=PackedStringArray("searchcast", "firecast", "centercast", "wideCentercast", "rearcast") instance=ExtResource("4_ov7wi")]
 searchcast = NodePath("../SearchCast")
@@ -88,13 +130,13 @@ collide_with_areas = true
 [node name="CenterCast" type="ShapeCast2D" parent="Ship2" unique_id=241336212]
 shape = SubResource("ConvexPolygonShape2D_wkjtn")
 target_position = Vector2(0, 0)
-collision_mask = 4
+collision_mask = 128
 collide_with_areas = true
 
 [node name="WidecenterCast" type="ShapeCast2D" parent="Ship2" unique_id=1643604351]
 shape = SubResource("ConvexPolygonShape2D_pw5p2")
 target_position = Vector2(0, 0)
-collision_mask = 4
+collision_mask = 128
 collide_with_areas = true
 
 [node name="Rearcast" type="ShapeCast2D" parent="Ship2" unique_id=2137649969]
@@ -102,34 +144,236 @@ shape = SubResource("ConvexPolygonShape2D_pw5p2")
 target_position = Vector2(-130, 0)
 collision_mask = 9
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1349949081]
-z_index = 1
-texture = ExtResource("4_wkjtn")
-
-[node name="Player1Score" type="RichTextLabel" parent="." unique_id=151219113]
-z_index = 2
-offset_left = -256.0
-offset_top = -256.0
-offset_right = -216.0
-offset_bottom = -216.0
-theme_override_fonts/normal_font = ExtResource("5_pw5p2")
-bbcode_enabled = true
-
-[node name="Player2Score" type="RichTextLabel" parent="." unique_id=91899290]
-z_index = 2
-offset_left = 216.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = -216.0
-theme_override_fonts/normal_font = ExtResource("5_pw5p2")
-bbcode_enabled = true
-
 [node name="GhostPlayer" parent="." unique_id=1305042172 node_paths=PackedStringArray("player") instance=ExtResource("6_r3lee")]
 z_index = 2
 position = Vector2(296, 0)
 player = NodePath("../Ship")
 
+[node name="Player1Score" type="RichTextLabel" parent="." unique_id=841902001]
+z_index = 2
+offset_left = -256.0
+offset_top = -216.0
+offset_right = -185.0
+offset_bottom = -176.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+
+[node name="Player1Name" type="RichTextLabel" parent="." unique_id=1444291305]
+z_index = 2
+offset_left = -256.0
+offset_top = -256.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+text = "Player 1"
+
+[node name="Player2Score" type="RichTextLabel" parent="." unique_id=633889329]
+z_index = 2
+offset_left = 186.0
+offset_top = -216.0
+offset_right = 256.0
+offset_bottom = -176.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+
+[node name="Player2Name" type="RichTextLabel" parent="." unique_id=606265151]
+z_index = 2
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = -216.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+bbcode_enabled = true
+text = "[right]AI Player"
+
+[node name="Centre" type="Sprite2D" parent="." unique_id=1458274877]
+visible = false
+material = SubResource("ShaderMaterial_vs77x")
+texture = ExtResource("9_i1fl1")
+
+[node name="Frame" type="Sprite2D" parent="." unique_id=1437933092]
+texture = ExtResource("10_a4ym1")
+
+[node name="ControlsL" type="Sprite2D" parent="." unique_id=1223866087]
+z_index = 1
+texture = ExtResource("11_414q5")
+script = ExtResource("12_t2alp")
+startX = -213.0
+endX = -230.0
+
+[node name="Fire" type="RichTextLabel" parent="ControlsL" unique_id=1408051229]
+offset_left = -256.0
+offset_top = 152.0
+offset_right = -204.0
+offset_bottom = 170.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Fire"
+
+[node name="FireKey" type="RichTextLabel" parent="ControlsL" unique_id=2129350576]
+offset_left = -248.0
+offset_top = 177.0
+offset_right = -224.0
+offset_bottom = 195.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]E"
+
+[node name="MoveKeyL" type="RichTextLabel" parent="ControlsL" unique_id=1302531402]
+offset_left = -248.0
+offset_top = 227.0
+offset_right = -224.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]A"
+
+[node name="MoveKeyF" type="RichTextLabel" parent="ControlsL" unique_id=612181288]
+offset_left = -214.0
+offset_top = 227.0
+offset_right = -190.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]W"
+
+[node name="MoveKeyD" type="RichTextLabel" parent="ControlsL" unique_id=695651353]
+offset_left = -180.0
+offset_top = 227.0
+offset_right = -156.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]D"
+
+[node name="Move" type="RichTextLabel" parent="ControlsL" unique_id=198359151]
+offset_left = -256.0
+offset_top = 205.0
+offset_right = -151.0
+offset_bottom = 219.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Move"
+
+[node name="Bullet1" type="Sprite2D" parent="ControlsL" unique_id=395267007]
+z_index = -1
+position = Vector2(-213, 174)
+texture = ExtResource("13_d8guh")
+
+[node name="Bullet2" type="Sprite2D" parent="ControlsL" unique_id=62387716]
+z_index = -1
+position = Vector2(-213, 186)
+texture = ExtResource("13_d8guh")
+
+[node name="Bullet3" type="Sprite2D" parent="ControlsL" unique_id=1616706905]
+z_index = -1
+position = Vector2(-213, 198)
+texture = ExtResource("13_d8guh")
+
+[node name="ControlsR" type="Sprite2D" parent="." unique_id=1767875871]
+z_index = 1
+texture = ExtResource("14_kr6ow")
+script = ExtResource("12_t2alp")
+startX = 213.0
+endX = 230.0
+
+[node name="Fire" type="RichTextLabel" parent="ControlsR" unique_id=1380557540]
+offset_left = 206.0
+offset_top = 152.0
+offset_right = 258.0
+offset_bottom = 170.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Fire"
+
+[node name="Move" type="RichTextLabel" parent="ControlsR" unique_id=1151976639]
+offset_left = 151.0
+offset_top = 205.0
+offset_right = 256.0
+offset_bottom = 219.0
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]Move"
+
+[node name="FireKey2" type="RichTextLabel" parent="ControlsR" unique_id=2105134679]
+offset_left = 224.0
+offset_top = 177.0
+offset_right = 248.0
+offset_bottom = 195.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]U"
+
+[node name="MoveKeyL2" type="RichTextLabel" parent="ControlsR" unique_id=494798030]
+offset_left = 224.0
+offset_top = 227.0
+offset_right = 248.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]L"
+
+[node name="MoveKeyF2" type="RichTextLabel" parent="ControlsR" unique_id=1738085439]
+offset_left = 190.0
+offset_top = 227.0
+offset_right = 214.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]I"
+
+[node name="MoveKeyD2" type="RichTextLabel" parent="ControlsR" unique_id=1468141792]
+offset_left = 156.0
+offset_top = 227.0
+offset_right = 180.0
+offset_bottom = 245.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("5_pw5p2")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "[center]J"
+
+[node name="Bullet1" type="Sprite2D" parent="ControlsR" unique_id=1444728147]
+z_index = -1
+position = Vector2(213, 174)
+texture = ExtResource("13_d8guh")
+
+[node name="Bullet2" type="Sprite2D" parent="ControlsR" unique_id=1354684261]
+z_index = -1
+position = Vector2(213, 186)
+texture = ExtResource("13_d8guh")
+
+[node name="Bullet3" type="Sprite2D" parent="ControlsR" unique_id=867346978]
+z_index = -1
+position = Vector2(213, 198)
+texture = ExtResource("13_d8guh")
+
+[node name="Edge" type="Sprite2D" parent="." unique_id=1451582594]
+texture = ExtResource("3_pw5p2")
+
 [connection signal="area_entered" from="Center" to="." method="_on_center_body_entered"]
 [connection signal="body_entered" from="Center" to="." method="_on_center_body_entered"]
+[connection signal="area_entered" from="AICenter" to="." method="_on_center_body_entered"]
+[connection signal="body_entered" from="AICenter" to="." method="_on_center_body_entered"]
 [connection signal="area_exited" from="Arena" to="." method="_on_hole_body_exited"]
 [connection signal="body_exited" from="Arena" to="." method="_on_hole_body_exited"]
+
+[editable path="Ship"]
+[editable path="Ship2"]

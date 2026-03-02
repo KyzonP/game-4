@@ -19,6 +19,7 @@ func reset(defeatedPlayer):
 		player2Score += 1
 		$Player2Score.text = "[center]" + str(player2Score)
 	elif defeatedPlayer == 0:
+		print("Dang")
 		pass
 		
 	

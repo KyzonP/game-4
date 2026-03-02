@@ -7,14 +7,26 @@ var lifeTimer = 0.0
 
 var offSet = 25
 
+var switched = false
+
 func _physics_process(delta):
 	position += transform.x * speed * delta
 
 	lifeTimer += delta
 	if lifeTimer >= lifespan:
 		reset()
+		
+	# Covering the case when a bullet is fired outside the arena, so it appears on the opposite side
+	#if !switched:
+		#if global_position.distance_to(Vector2(0,0)) > 260:
+			#global_position *= -1
+			#switched = true
 
 func reset():
+	if $CPUParticles2D:
+		$CPUParticles2D.one_shot = true
+		$CPUParticles2D.reparent(get_parent())
+	
 	queue_free()
 
 
@@ -23,5 +35,4 @@ func _on_body_entered(body):
 		body.destroy()
 		reset()
 	elif body.is_in_group("bullet"):
-		print("bullet")
 		reset()

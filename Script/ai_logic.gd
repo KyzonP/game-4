@@ -65,6 +65,5 @@ func calculateRotation(rotation, speed, delta):
 
 func checkShooting():
 	if firecast.is_colliding():
-		print(firecast.get_collider(0))
 		if firecast.get_collider(0).is_in_group("player"):
 			return true
