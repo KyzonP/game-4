@@ -83,3 +83,10 @@ func _on_join_button_down():
 
 func _on_start_game_button_down():
 	StartGame.rpc()
+
+
+func _on_back_button_up():
+	var scene = load("res://Scenes/UI/MainMenu.tscn.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	
+	self.hide()

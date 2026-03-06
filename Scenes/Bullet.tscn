@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://b5bhdnkc4784s"]
 
 [ext_resource type="Script" uid="uid://vm7sdomyaa1j" path="res://Script/bullet.gd" id="1_14k46"]
-[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Final/Gameplay/Bullet.png" id="2_14k46"]
-[ext_resource type="Script" uid="uid://dmnpxxeo0oaop" path="res://Script/Particles/cpu_particles_2d.gd" id="3_qvus8"]
+[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Sprites/Final/Gameplay/Bullet.png" id="2_14k46"]
+[ext_resource type="Script" uid="uid://dmnpxxeo0oaop" path="res://Script/Particles/destroy_on_finish.gd" id="3_qvus8"]
+[ext_resource type="AudioStream" uid="uid://bdrf6mku5x21j" path="res://Assets/SFX/Splash.wav" id="4_pypll"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_14k46"]
 radius = 4.0
@@ -35,6 +36,12 @@ scale_amount_max = 3.0
 color_initial_ramp = SubResource("Gradient_14k46")
 script = ExtResource("3_qvus8")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1288760311]
+stream = ExtResource("4_pypll")
+volume_db = -40.0
+script = ExtResource("3_qvus8")
+
 [connection signal="area_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="finished" from="CPUParticles2D" to="CPUParticles2D" method="_on_finished"]
+[connection signal="finished" from="AudioStreamPlayer" to="AudioStreamPlayer" method="_on_finished"]

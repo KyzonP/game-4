@@ -104,6 +104,9 @@ func shoot():
 		
 		### UI ###
 		updateUI()
+		
+		### AUDIO ###
+		$Fire.playSound()
 	
 # Pass on player number to parent, to give point and begin reset
 func destroy():

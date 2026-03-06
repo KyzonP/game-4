@@ -13,11 +13,15 @@ config_version=5
 config/name="20 Games - Game 4"
 run/main_scene="uid://bbdyo3nv8mo88"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+boot_splash/image="uid://4wmlpb7kb568"
 config/icon="res://icon.svg"
+config/macos_native_icon="res://Assets/Sprites/Splash/Logo.icns"
+config/windows_native_icon="res://Assets/Sprites/Splash/Logo.ico"
 
 [autoload]
 
 GameManager="*uid://colt3hu34jp3e"
+Audio="*uid://f14bay1sqqg2"
 
 [display]
 
@@ -30,6 +34,7 @@ window/stretch/mode="viewport"
 
 reset=""
 PlayerSpawnPoint=""
+freeze="Stops when the round is over"
 
 [input]
 
@@ -83,6 +88,11 @@ fire_p2={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":85,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":79,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+mute={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://f14bay1sqqg2"]
+
+[ext_resource type="AudioStream" uid="uid://cfboo41q6cvfm" path="res://Assets/SFX/Whirlpool.wav" id="1_6re4p"]
+[ext_resource type="Script" uid="uid://bitfm7gp7n7oq" path="res://Script/Sound/audio.gd" id="1_ahv63"]
+[ext_resource type="AudioStream" uid="uid://1kehc8i04y5e" path="res://Assets/Music/Game4Soundtrack.wav" id="3_bcixw"]
+
+[node name="Audio" type="Node" unique_id=1054941555]
+script = ExtResource("1_ahv63")
+
+[node name="Whirlpool" type="AudioStreamPlayer" parent="." unique_id=17090907]
+stream = ExtResource("1_6re4p")
+volume_db = -30.0
+autoplay = true
+
+[node name="Soundtrack" type="AudioStreamPlayer" parent="." unique_id=237404519]
+stream = ExtResource("3_bcixw")
+autoplay = true

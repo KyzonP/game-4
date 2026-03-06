@@ -1,9 +1,17 @@
 [gd_scene format=3 uid="uid://c8mprinwgog64"]
 
 [ext_resource type="Script" uid="uid://ctou81klkvhx2" path="res://Script/ship.gd" id="1_4qyt1"]
-[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Placeholder/Gameplay/Player.png" id="1_78pfh"]
-[ext_resource type="Texture2D" uid="uid://c3bpeqx8eiirw" path="res://Assets/Final/Gameplay/Player1.png" id="2_6ejuo"]
-[ext_resource type="Texture2D" uid="uid://dgqlojbi6b5lu" path="res://Assets/Final/Gameplay/Player2.png" id="3_8aq7e"]
+[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Sprites/Placeholder/Gameplay/Player.png" id="1_78pfh"]
+[ext_resource type="Texture2D" uid="uid://c3bpeqx8eiirw" path="res://Assets/Sprites/Final/Gameplay/Player1.png" id="2_6ejuo"]
+[ext_resource type="Texture2D" uid="uid://dgqlojbi6b5lu" path="res://Assets/Sprites/Final/Gameplay/Player2.png" id="3_8aq7e"]
+[ext_resource type="Material" uid="uid://cyjx8jnwh6rob" path="res://Assets/Sprites/Final/Particles/explosionParticle.tres" id="5_cmder"]
+[ext_resource type="Texture2D" uid="uid://c57f28mc2fhjk" path="res://Assets/Sprites/Final/Particles/Explosion.png" id="6_fwcnm"]
+[ext_resource type="PackedScene" uid="uid://dfpd1oegxf6vw" path="res://Scenes/Sounds/fire.tscn" id="7_fwcnm"]
+[ext_resource type="AudioStream" uid="uid://cgk564okrwfs5" path="res://Assets/SFX/Explosion-01.wav" id="8_sk2ms"]
+[ext_resource type="AudioStream" uid="uid://dnunufag6nsfi" path="res://Assets/SFX/Explosion-02.wav" id="9_odhhf"]
+[ext_resource type="AudioStream" uid="uid://mlb4rkj3m38u" path="res://Assets/SFX/Explosion-03.wav" id="10_xn00d"]
+[ext_resource type="AudioStream" uid="uid://chvvai6h16u18" path="res://Assets/SFX/Explosion-04.wav" id="11_jrg3c"]
+[ext_resource type="AudioStream" uid="uid://bn7u1d2q0kakl" path="res://Assets/SFX/Explosion-05.wav" id="12_l5ngj"]
 
 [sub_resource type="Gradient" id="Gradient_6ejuo"]
 interpolation_mode = 2
@@ -37,7 +45,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Ship" type="CharacterBody2D" unique_id=609509698 groups=["player"]]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_s1bny"]
+streams_count = 5
+stream_0/stream = ExtResource("8_sk2ms")
+stream_1/stream = ExtResource("9_odhhf")
+stream_2/stream = ExtResource("10_xn00d")
+stream_3/stream = ExtResource("11_jrg3c")
+stream_4/stream = ExtResource("12_l5ngj")
+
+[node name="Ship" type="CharacterBody2D" unique_id=609509698 groups=["freeze", "player"]]
 collision_mask = 0
 motion_mode = 1
 wall_min_slide_angle = 0.0
@@ -72,5 +88,28 @@ polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=904392699]
 polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
+
+[node name="Explosion" type="CPUParticles2D" parent="." unique_id=1158815031]
+material = ExtResource("5_cmder")
+emitting = false
+amount = 12
+texture = ExtResource("6_fwcnm")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.5
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(24, 12)
+spread = 180.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="Fire" parent="." unique_id=1521230620 instance=ExtResource("7_fwcnm")]
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="." unique_id=1187283244]
+stream = SubResource("AudioStreamRandomizer_s1bny")
+volume_db = -20.0
+max_polyphony = 20
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -14,7 +14,10 @@ func _physics_process(delta):
 
 	lifeTimer += delta
 	if lifeTimer >= lifespan:
+		$AudioStreamPlayer.play()
+		$AudioStreamPlayer.reparent(get_parent())
 		reset()
+		
 		
 	# Covering the case when a bullet is fired outside the arena, so it appears on the opposite side
 	#if !switched:
@@ -33,6 +36,8 @@ func reset():
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		body.destroy()
+		if body.has_method("explode"):
+			body.explode()
 		reset()
 	elif body.is_in_group("bullet"):
 		reset()

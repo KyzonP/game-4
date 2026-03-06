@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://bbdyo3nv8mo88"]
 
 [ext_resource type="Script" uid="uid://bmnxiubhv1y35" path="res://Script/UI/main_menu.gd" id="1_g18y6"]
-[ext_resource type="Texture2D" uid="uid://3fg8j77kfrdf" path="res://Assets/Final/UI/Button.png" id="2_k8um8"]
-[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="2_mjmdf"]
+[ext_resource type="Texture2D" uid="uid://3fg8j77kfrdf" path="res://Assets/Sprites/Final/UI/Button.png" id="2_k8um8"]
+[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Assets/Fonts/PrStart.ttf" id="2_mjmdf"]
+[ext_resource type="Texture2D" uid="uid://dlu62qgnualbd" path="res://Assets/Sprites/Final/UI/ButtonPressed.png" id="3_744d7"]
+[ext_resource type="Texture2D" uid="uid://b0chxr8hqgh7b" path="res://Assets/Sprites/Final/UI/ButtonHover.png" id="3_jex3y"]
 [ext_resource type="Shader" uid="uid://botuftb61fvlb" path="res://Shaders/Test.gdshader" id="3_t6w0q"]
-[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Final/UI/OverlayEdge.png" id="4_k8um8"]
+[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Sprites/Final/UI/OverlayEdge.png" id="4_k8um8"]
+[ext_resource type="Texture2D" uid="uid://doh0kv842nrit" path="res://Assets/Sprites/Final/UI/ButtonDisabled.png" id="6_kl3t2"]
+[ext_resource type="PackedScene" uid="uid://bkmax78tysk50" path="res://Scenes/Sounds/audio_stream_player.tscn" id="6_ynupv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jex3y"]
 shader = ExtResource("3_t6w0q")
@@ -37,15 +41,20 @@ offset_top = 99.0
 offset_right = 332.0
 offset_bottom = 148.0
 texture_normal = ExtResource("2_k8um8")
+texture_pressed = ExtResource("3_744d7")
+texture_hover = ExtResource("3_jex3y")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Local" unique_id=895224795]
 layout_mode = 0
 offset_top = 13.0
 offset_right = 150.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_mjmdf")
 bbcode_enabled = true
 text = "[center]Local"
+
+[node name="ButtonSound" parent="Local" unique_id=1621571916 instance=ExtResource("6_ynupv")]
 
 [node name="Online" type="TextureButton" parent="." unique_id=1770523221]
 layout_mode = 0
@@ -54,15 +63,21 @@ offset_top = 165.0
 offset_right = 333.0
 offset_bottom = 214.0
 texture_normal = ExtResource("2_k8um8")
+texture_pressed = ExtResource("3_744d7")
+texture_hover = ExtResource("3_jex3y")
+texture_disabled = ExtResource("6_kl3t2")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Online" unique_id=166395954]
 layout_mode = 0
 offset_top = 13.0
 offset_right = 150.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_mjmdf")
 bbcode_enabled = true
-text = "[center]Online"
+text = "[center]Online*"
+
+[node name="ButtonSound" parent="Online" unique_id=442126421 instance=ExtResource("6_ynupv")]
 
 [node name="AI" type="TextureButton" parent="." unique_id=1354990820]
 layout_mode = 0
@@ -71,15 +86,20 @@ offset_top = 28.0
 offset_right = 333.0
 offset_bottom = 77.0
 texture_normal = ExtResource("2_k8um8")
+texture_pressed = ExtResource("3_744d7")
+texture_hover = ExtResource("3_jex3y")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="AI" unique_id=2065883576]
 layout_mode = 0
 offset_top = 13.0
 offset_right = 150.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_mjmdf")
 bbcode_enabled = true
 text = "[center]AI"
+
+[node name="ButtonSound" parent="AI" unique_id=34970749 instance=ExtResource("6_ynupv")]
 
 [node name="Quit" type="TextureButton" parent="." unique_id=1207257373]
 layout_mode = 0
@@ -88,15 +108,20 @@ offset_top = 299.0
 offset_right = 335.0
 offset_bottom = 348.0
 texture_normal = ExtResource("2_k8um8")
+texture_pressed = ExtResource("3_744d7")
+texture_hover = ExtResource("3_jex3y")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Quit" unique_id=539218884]
 layout_mode = 0
 offset_top = 13.0
 offset_right = 150.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("2_mjmdf")
 bbcode_enabled = true
 text = "[center]Quit"
+
+[node name="ButtonSound" parent="Quit" unique_id=1533248386 instance=ExtResource("6_ynupv")]
 
 [node name="Water" type="Sprite2D" parent="." unique_id=8381192]
 z_index = -1
@@ -104,7 +129,18 @@ material = SubResource("ShaderMaterial_jex3y")
 position = Vector2(256, 256)
 texture = ExtResource("4_k8um8")
 
-[connection signal="button_down" from="Local" to="." method="_on_local_button_down"]
-[connection signal="button_down" from="Online" to="." method="_on_online_button_down"]
-[connection signal="button_down" from="AI" to="." method="_on_ai_button_down"]
-[connection signal="button_down" from="Quit" to="." method="_on_quit_button_down"]
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=497339966]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 474.0
+offset_right = 511.0
+offset_bottom = 501.0
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("2_mjmdf")
+bbcode_enabled = true
+text = "[right]*Desktop Version only. LAN only."
+
+[connection signal="button_up" from="Local" to="." method="_on_local_button_down"]
+[connection signal="button_up" from="Online" to="." method="_on_online_button_down"]
+[connection signal="button_up" from="AI" to="." method="_on_ai_button_down"]
+[connection signal="button_up" from="Quit" to="." method="_on_quit_button_down"]

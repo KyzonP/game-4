@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://doums0reb5f2t"]
 
 [ext_resource type="Script" uid="uid://b8olskyh2d68l" path="res://Script/Multiplayer/multi_ship.gd" id="1_6arvq"]
-[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Placeholder/Gameplay/Player.png" id="2_4o3px"]
-[ext_resource type="Texture2D" uid="uid://c3bpeqx8eiirw" path="res://Assets/Final/Gameplay/Player1.png" id="2_s1qqb"]
-[ext_resource type="Texture2D" uid="uid://dgqlojbi6b5lu" path="res://Assets/Final/Gameplay/Player2.png" id="3_xonyo"]
+[ext_resource type="Texture2D" uid="uid://b4cxn30ceeses" path="res://Assets/Sprites/Placeholder/Gameplay/Player.png" id="2_4o3px"]
+[ext_resource type="Texture2D" uid="uid://c3bpeqx8eiirw" path="res://Assets/Sprites/Final/Gameplay/Player1.png" id="2_s1qqb"]
+[ext_resource type="Texture2D" uid="uid://dgqlojbi6b5lu" path="res://Assets/Sprites/Final/Gameplay/Player2.png" id="3_xonyo"]
+[ext_resource type="Material" uid="uid://cyjx8jnwh6rob" path="res://Assets/Sprites/Final/Particles/explosionParticle.tres" id="5_f1wav"]
+[ext_resource type="Texture2D" uid="uid://c57f28mc2fhjk" path="res://Assets/Sprites/Final/Particles/Explosion.png" id="6_t07xk"]
+[ext_resource type="PackedScene" uid="uid://dfpd1oegxf6vw" path="res://Scenes/Sounds/fire.tscn" id="7_t07xk"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4qyt1"]
 animations = [{
@@ -62,5 +65,23 @@ polygon = PackedVector2Array(-16, 8, 2, 8, 16, 1, 16, -1, 2, -8, -16, -8)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1707204032]
 replication_config = SubResource("SceneReplicationConfig_6arvq")
+
+[node name="Explosion" type="CPUParticles2D" parent="." unique_id=721936181]
+material = ExtResource("5_f1wav")
+emitting = false
+amount = 12
+texture = ExtResource("6_t07xk")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.5
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(24, 12)
+spread = 180.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="Fire" parent="." unique_id=1521230620 instance=ExtResource("7_t07xk")]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

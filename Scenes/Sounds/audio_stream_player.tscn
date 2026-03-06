@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bkmax78tysk50"]
+
+[ext_resource type="Script" uid="uid://bhtw67b5mmdvh" path="res://Script/Sound/ui_sound_player.gd" id="1_aqtxj"]
+[ext_resource type="AudioStream" uid="uid://bw1y8ufc2hy7y" path="res://Assets/SFX/WoodButton.wav" id="1_cplch"]
+
+[node name="ButtonSound" type="AudioStreamPlayer" unique_id=1621571916]
+stream = ExtResource("1_cplch")
+volume_db = -10.0
+pitch_scale = 2.0
+script = ExtResource("1_aqtxj")

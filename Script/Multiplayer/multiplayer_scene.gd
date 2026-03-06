@@ -45,7 +45,6 @@ func _ready():
 @rpc("any_peer", "call_local")
 func reset(defeatedPlayer, tie):
 	
-	print(tie)
 	if tie:
 		pass
 	else:

@@ -3,7 +3,6 @@ extends Control
 func _ready():
 	if OS.has_feature("web"):
 		$Online.disabled = true
-	pass
 
 func _on_local_button_down():
 	var scene = load("res://Scenes/Test.tscn").instantiate()

@@ -3,17 +3,17 @@
 [ext_resource type="Script" uid="uid://ba2qenmrmmp1v" path="res://Script/levelRules.gd" id="1_6rx47"]
 [ext_resource type="Shader" uid="uid://botuftb61fvlb" path="res://Shaders/Test.gdshader" id="2_wkjtn"]
 [ext_resource type="PackedScene" uid="uid://c8mprinwgog64" path="res://Scenes/ship.tscn" id="3_ov7wi"]
-[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Final/UI/OverlayEdge.png" id="3_pw5p2"]
+[ext_resource type="Texture2D" uid="uid://c27at7qfak5x6" path="res://Assets/Sprites/Final/UI/OverlayEdge.png" id="3_pw5p2"]
 [ext_resource type="PackedScene" uid="uid://cfth6vx5tf0k1" path="res://Scenes/ai_logic.tscn" id="4_ov7wi"]
-[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Fonts/PrStart.ttf" id="5_pw5p2"]
+[ext_resource type="FontFile" uid="uid://b374id4xcupdv" path="res://Assets/Fonts/PrStart.ttf" id="5_pw5p2"]
 [ext_resource type="PackedScene" uid="uid://mbc7xxg2ytya" path="res://Scenes/ghost_player.tscn" id="6_r3lee"]
 [ext_resource type="Shader" uid="uid://bg0131rnrbxdg" path="res://Shaders/DeathZone.gdshader" id="8_foxwq"]
-[ext_resource type="Texture2D" uid="uid://csy7xqxvhb355" path="res://Assets/Placeholder/Arena/LeveLCentre.png" id="9_i1fl1"]
-[ext_resource type="Texture2D" uid="uid://dwnp3g3qkqtdl" path="res://Assets/Final/UI/Overlay.png" id="10_a4ym1"]
-[ext_resource type="Texture2D" uid="uid://d4c3cuxur4nt6" path="res://Assets/Final/UI/OverlayButtonsL.png" id="11_414q5"]
+[ext_resource type="Texture2D" uid="uid://csy7xqxvhb355" path="res://Assets/Sprites/Placeholder/Arena/LeveLCentre.png" id="9_i1fl1"]
+[ext_resource type="Texture2D" uid="uid://dwnp3g3qkqtdl" path="res://Assets/Sprites/Final/UI/Overlay.png" id="10_a4ym1"]
+[ext_resource type="Texture2D" uid="uid://d4c3cuxur4nt6" path="res://Assets/Sprites/Final/UI/OverlayButtonsL.png" id="11_414q5"]
 [ext_resource type="Script" uid="uid://byfyfnbvfsjxl" path="res://Script/UI/bulletAmount.gd" id="12_t2alp"]
-[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Final/Gameplay/Bullet.png" id="13_d8guh"]
-[ext_resource type="Texture2D" uid="uid://6yuewjqiabf7" path="res://Assets/Final/UI/OverlayButtonsR.png" id="14_kr6ow"]
+[ext_resource type="Texture2D" uid="uid://bq2ueqerro37i" path="res://Assets/Sprites/Final/Gameplay/Bullet.png" id="13_d8guh"]
+[ext_resource type="Texture2D" uid="uid://6yuewjqiabf7" path="res://Assets/Sprites/Final/UI/OverlayButtonsR.png" id="14_kr6ow"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xkb4j"]
 shader = ExtResource("2_wkjtn")
@@ -307,6 +307,7 @@ bbcode_enabled = true
 text = "[center]Move"
 
 [node name="FireKey2" type="RichTextLabel" parent="ControlsR" unique_id=2105134679]
+visible = false
 offset_left = 224.0
 offset_top = 177.0
 offset_right = 248.0
@@ -318,6 +319,7 @@ bbcode_enabled = true
 text = "[center]U"
 
 [node name="MoveKeyL2" type="RichTextLabel" parent="ControlsR" unique_id=494798030]
+visible = false
 offset_left = 224.0
 offset_top = 227.0
 offset_right = 248.0
@@ -329,6 +331,7 @@ bbcode_enabled = true
 text = "[center]L"
 
 [node name="MoveKeyF2" type="RichTextLabel" parent="ControlsR" unique_id=1738085439]
+visible = false
 offset_left = 190.0
 offset_top = 227.0
 offset_right = 214.0
@@ -340,6 +343,7 @@ bbcode_enabled = true
 text = "[center]I"
 
 [node name="MoveKeyD2" type="RichTextLabel" parent="ControlsR" unique_id=1468141792]
+visible = false
 offset_left = 156.0
 offset_top = 227.0
 offset_right = 180.0
@@ -374,6 +378,7 @@ texture = ExtResource("3_pw5p2")
 [connection signal="body_entered" from="AICenter" to="." method="_on_center_body_entered"]
 [connection signal="area_exited" from="Arena" to="." method="_on_hole_body_exited"]
 [connection signal="body_exited" from="Arena" to="." method="_on_hole_body_exited"]
+[connection signal="area_entered" from="Ship2/Area2D" to="Ship2" method="_on_area_2d_body_entered"]
 
 [editable path="Ship"]
 [editable path="Ship2"]

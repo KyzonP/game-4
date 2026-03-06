@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dfpd1oegxf6vw"]
+
+[ext_resource type="AudioStream" uid="uid://chts1kipauwsc" path="res://Assets/SFX/Cannon2.wav" id="1_3yfsr"]
+[ext_resource type="Script" uid="uid://j7v2gjcjiwju" path="res://Script/Sound/fire.gd" id="1_55o5b"]
+[ext_resource type="AudioStream" uid="uid://dvscwqfg5xnev" path="res://Assets/SFX/Cannon3.wav" id="2_mtm60"]
+[ext_resource type="AudioStream" uid="uid://bqc1of3nffntl" path="res://Assets/SFX/Cannon4.wav" id="3_hheua"]
+[ext_resource type="AudioStream" uid="uid://w5vvjtob2uvy" path="res://Assets/SFX/Cannon.wav" id="4_pjkbl"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_lgc7r"]
+streams_count = 4
+stream_0/stream = ExtResource("1_3yfsr")
+stream_1/stream = ExtResource("2_mtm60")
+stream_2/stream = ExtResource("3_hheua")
+stream_3/stream = ExtResource("4_pjkbl")
+
+[node name="Fire" type="AudioStreamPlayer" unique_id=1521230620]
+stream = SubResource("AudioStreamRandomizer_lgc7r")
+volume_db = -7.776
+pitch_scale = 0.56
+max_polyphony = 6
+script = ExtResource("1_55o5b")
